@@ -3,7 +3,6 @@ hosts:
 become: true
 tasks:
   - block:
-    when: ansible_distribution == "ubuntu"
       - name: Download GPG Key
         get_url:
             url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
@@ -25,10 +24,12 @@ tasks:
           update_cache: yes
 
       - name: Start and enable jenkins
-          systemd:
+        systemd:
             name: jenkins
             state: started
             enabled: yes
+    
+    when: ansible_distribution == "ubuntu"
   
   - block:
     
@@ -49,7 +50,7 @@ tasks:
           state: latest
         
       - name: Install fontconfig,java, jenkins
-        apt:
+        yum:
           name:
             - fontconfig 
             - openjdk-17-jre
@@ -57,11 +58,13 @@ tasks:
           state: present
 
       - name: Start and enable jenkins
-          systemd:
+        systemd:
             name: jenkins
             state: started
             enabled: yes
 
+        
+    when: ansible_distribution == "Redhat"
 
 
       
