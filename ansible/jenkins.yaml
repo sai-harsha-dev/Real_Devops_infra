@@ -1,7 +1,7 @@
-name: Playbook for installing JENKINS
-hosts:
-become: true
-tasks:
+- name: Playbook for installing JENKINS
+  hosts:
+  become: true
+  tasks:
   - block:
       - name: Download GPG Key
         get_url:
@@ -30,7 +30,7 @@ tasks:
             enabled: yes
     
     when: ansible_distribution == "ubuntu"
-  
+
   - block:
     
       - name: Download GPG Key
