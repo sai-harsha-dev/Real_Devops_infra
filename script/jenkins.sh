@@ -4,7 +4,7 @@ set -e
 
 source common.sh
 
-echo "Starting Jenkins installation"
+echo "Jenkins installation"
 
 exec_status "sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
 https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key" "Adding GPG KEY"
