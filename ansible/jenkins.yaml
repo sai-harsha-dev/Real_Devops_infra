@@ -11,7 +11,7 @@ tasks:
       - name: Add jenkins repository
         copy:
             dest: /etc/apt/sources.list.d/jenkins.list
-            content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian-stable binary/
+            content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
             mode: '0644'
 
       - name: Update repolist and install fontconfig,java,jenkins
