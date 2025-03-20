@@ -1,0 +1,8 @@
+name: Playbook to install AWS CLI
+hosts:
+become: true
+tasks:
+  - block:
+    when: ansible_distribution == "ubuntu"
+      
+      
