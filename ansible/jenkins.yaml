@@ -1,16 +1,16 @@
 - name: Playbook for installing JENKINS
-  hosts:
+  hosts: localhost
   become: true
   tasks:
   - block:
       - name: Download GPG Key
         get_url:
-            url: https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
-            dest: /usr/share/keyrings/jenkins-keyring.asc
+            url: "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key"
+            dest: "/usr/share/keyrings/jenkins-keyring.asc"
             mode: '0644'
       - name: Add jenkins repository
         copy:
-            dest: /etc/apt/sources.list.d/jenkins.list
+            dest: "/etc/apt/sources.list.d/jenkins.list"
             content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
             mode: '0644'
 
@@ -29,7 +29,7 @@
             state: started
             enabled: yes
     
-    when: ansible_distribution == "ubuntu"
+    when: ansible_distribution == "Ubuntu"
 
   - block:
     
