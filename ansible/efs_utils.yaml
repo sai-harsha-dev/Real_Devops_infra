@@ -1,0 +1,97 @@
+- name: Playbook to install efs-utils
+  hosts: localhost
+  become: true
+  tasks:
+    - block:
+        - name: Download and install Rust using rustup
+          ansible.builtin.shell:
+            cmd: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+            creates: "{{ ansible_env.HOME }}/.cargo/bin/rustc"
+
+        - name: Source Rust environment variables
+          ansible.builtin.lineinfile:
+            path: "{{ ansible_env.HOME }}/.bashrc"
+            line: 'source "$HOME/.cargo/env"'
+            create: yes
+
+        - name: Install binaries
+          apt:
+            name:
+              - git 
+              - binutils 
+              - rustc
+              - cargo
+              - pkg-config
+              - libssl-dev
+              - gettext 
+            state: present
+            update_cache: true
+
+        - name: Clone git repo
+          ansible.builtin.git:
+            repo: "https://github.com/aws/efs-utils"
+            dest: "/tmp/efs-utils"
+            update: yes
+
+        - name: Change the working directory to and efs-utils execute ./build-deb.sh 
+          command: 
+            cmd: "./build-deb.sh" 
+            chdir: "/tmp/efs-utils"
+
+        - name: Find the built Amazon EFS Utils .deb package
+          ansible.builtin.find:
+            paths: "/tmp/efs-utils/build/"
+            patterns: "amazon-efs-utils*deb"
+          register: deb_files
+
+        - name: Install EFS Utils package
+          ansible.builtin.apt:
+            deb: "{{ deb_files.files[0].path }}"
+          when: deb_files.files | length > 0
+
+        - name: Install efs-utils and dependencies
+          apt:
+            name: 
+              - build-essential
+              - libwrap0-dev
+              - libssl-dev
+
+        - name: Download stunnel package
+          get_url:
+            url: https://www.stunnel.org/downloads/stunnel-5.74.tar.gz
+            dest: "/tmp/stunnel-5.74.tar.gz"
+            mode: '0644' 
+
+        - name: Extract stunnel-5.74.tar.gz
+          ansible.builtin.unarchive:
+            src: "/tmp/stunnel-5.74.tar.gz"
+            dest: "/tmp/"
+            remote_src: yes
+
+        - name: Run configure before make
+          ansible.builtin.command:
+            cmd: ./configure
+            chdir: "/tmp/stunnel-5.74"
+
+        - name: Compile Stunnel
+          ansible.builtin.command:
+            cmd: "make"
+            chdir: "/tmp/stunnel-5.74"
+
+        - name: Remove existing stunnel binary (if exists)
+          ansible.builtin.file:
+            path: "/bin/stunnel"
+            state: absent
+
+        - name: Install Stunnel
+          ansible.builtin.command:
+            cmd: "make install"
+            chdir: "/tmp/stunnel-5.74"
+
+        - name: Create symlink for stunnel
+          ansible.builtin.file:
+            src: "/usr/local/bin/stunnel"
+            dest: "/bin/stunnel"
+            state: link
+
+      when: ansible_distribution == "Ubuntu"

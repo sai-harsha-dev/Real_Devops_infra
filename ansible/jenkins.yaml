@@ -22,13 +22,11 @@
             - jenkins
           state: present
           update_cache: yes
-
-      - name: Start and enable jenkins
-        systemd:
-            name: jenkins
-            state: started
-            enabled: yes
-    
+        notify:
+          - Enable jenkins
+          - Get password
+          - Print password
+          
     when: ansible_distribution == "Ubuntu"
 
   - block:
@@ -56,15 +54,27 @@
             - openjdk-17-jre
             - jenkins
           state: present
-
-      - name: Start and enable jenkins
-        systemd:
-            name: jenkins
-            state: started
-            enabled: yes
-
+        notify: 
+          - Enable jenkins
+          - Get password
+          - Print password
         
     when: ansible_distribution == "Redhat"
 
-
+  handlers:
+    - name: Enable jenkins
+      systemd:
+          name: jenkins
+          state: started
+          enabled: yes
+    
+    - name: Get password
+      command: cat /var/lib/jenkins/secrets/initialAdminPassword
+      register: jenkins_password
+  
+    - name: Print password
+      debug:
+        msg:
+          - Jenkins Installation Completed
+          - ADMIN PASSWORD : {{jenkins_password.stdout}}
       
