@@ -1,0 +1,4 @@
+- import_tasks: efs_utils.yaml
+- import_tasks: aws_cli.yaml
+- import_tasks: efs_config.yaml
+- import_tasks: jenkins.yaml

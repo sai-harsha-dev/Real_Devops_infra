@@ -1,0 +1,5 @@
+- name: Configure EFS and install jenkins
+  hosts: localhost
+  become: true
+  roles:
+    - jenkins

@@ -1,6 +1,6 @@
 - name: Playbook for installing JENKINS
-  hosts: localhost
-  become: true
+  # hosts: localhost
+  # become: true
   tasks:
   - block:
       - name: Download GPG Key
@@ -61,20 +61,4 @@
         
     when: ansible_distribution == "Redhat"
 
-  handlers:
-    - name: Enable jenkins
-      systemd:
-          name: jenkins
-          state: started
-          enabled: yes
-    
-    - name: Get password
-      command: cat /var/lib/jenkins/secrets/initialAdminPassword
-      register: jenkins_password
-  
-    - name: Print password
-      debug:
-        msg:
-          - Jenkins Installation Completed
-          - ADMIN PASSWORD : {{jenkins_password.stdout}}
       

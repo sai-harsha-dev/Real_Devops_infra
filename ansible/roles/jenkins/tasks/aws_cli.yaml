@@ -1,6 +1,6 @@
 - name: Playbook to install AWS CLI
-  hosts: localhost
-  become: true
+  # hosts: localhost
+  # become: true
   tasks:
     - block:
       - name: Install unzip

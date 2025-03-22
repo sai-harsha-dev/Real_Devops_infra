@@ -1,6 +1,6 @@
 - name: Playbook to install efs-utils
-  hosts: localhost
-  become: true
+  # hosts: localhost
+  # become: true
   tasks:
     - block:
         - name: Download and install Rust using rustup

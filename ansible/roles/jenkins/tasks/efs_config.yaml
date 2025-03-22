@@ -1,6 +1,6 @@
 - name: Play to mount efs filesystem
-  hosts: localhost
-  become: true
+  # hosts: localhost
+  # become: true
   tasks:
     - name: Get EFS Filesystem ID
       ansible.builtin.shell:
