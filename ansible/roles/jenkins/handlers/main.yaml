@@ -12,4 +12,4 @@
   debug:
     msg:
       - Jenkins Installation Completed
-      - ADMIN PASSWORD : {{jenkins_password.stdout}}
+      - ADMIN PASSWORD : {{ jenkins_password.stdout }}
