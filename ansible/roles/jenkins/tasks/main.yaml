@@ -1,4 +1,16 @@
-- import_tasks: efs_utils.yaml
-- import_tasks: aws_cli.yaml
-- import_tasks: efs_config.yaml
-- import_tasks: jenkins.yaml
+- name: EFS UTILITY SETUP
+  include_tasks: efs_utils.yaml
+  
+- name: AWS CLI SETUP
+  import_tasks: aws_cli.yaml
+
+- name: EFS FILESYSTEM SETUP
+  import_tasks: efs_config.yaml
+
+- name: JENKINS SETUP
+  import_tasks: jenkins_debian.yaml
+  when: ansible_distribution == "Ubuntu"
+
+- name: JENKINS SETUP
+  import_tasks: jenkins_redhat.yaml
+  when: ansible_distribution == "Redhat"

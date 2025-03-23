@@ -21,6 +21,22 @@
       - gettext 
     state: present
     update_cache: true
+  when: ansible_distribution == "Ubuntu"
+
+
+- name: Install binaries
+  yum:
+    name:
+      - git 
+      - binutils 
+      - rustc
+      - cargo
+      - pkg-config
+      - libssl-dev
+      - gettext 
+    state: present
+    update_cache: true
+  when: ansible_distribution == "RedHat"
 
 - name: Clone git repo
   ansible.builtin.git:
@@ -89,4 +105,3 @@
     dest: "/bin/stunnel"
     state: link
 
-# when: ansible_distribution == "Ubuntu"
