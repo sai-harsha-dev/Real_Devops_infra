@@ -18,8 +18,8 @@
     update: yes
 
 - name: Change the working directory to and efs-utils execute make rpm 
-  command: 
-    cmd: "make rpm" 
+  command: "make rpm" 
+  args:  
     chdir: "/tmp/efs-utils"
 
 - name: Find the built Amazon EFS Utils .rpm package
