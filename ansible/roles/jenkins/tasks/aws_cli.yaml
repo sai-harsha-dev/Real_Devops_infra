@@ -10,7 +10,7 @@
     name: unzip
     state: present
     update_cache: yes
-  when: ansible_distribution == "Redhat"
+  when: ansible_fact['os_family'] == "RedHat"
 
 - name: Download AWS CLI
   get_url:

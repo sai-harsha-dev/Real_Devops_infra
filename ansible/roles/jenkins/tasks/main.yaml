@@ -13,4 +13,4 @@
 
 - name: JENKINS SETUP FOR REDHAT
   include_tasks: jenkins_redhat.yaml
-  when: ansible_distribution == "RedHat"
+  when: ansible_fact['os_family'] == "RedHat"
