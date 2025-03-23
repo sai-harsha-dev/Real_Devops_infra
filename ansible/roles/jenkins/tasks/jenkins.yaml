@@ -1,64 +1,59 @@
-- name: Playbook for installing JENKINS
-  # hosts: localhost
-  # become: true
-  tasks:
-  - block:
-      - name: Download GPG Key
-        get_url:
-            url: "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key"
-            dest: "/usr/share/keyrings/jenkins-keyring.asc"
-            mode: '0644'
-      - name: Add jenkins repository
-        copy:
-            dest: "/etc/apt/sources.list.d/jenkins.list"
-            content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
-            mode: '0644'
+- name: Download GPG Key
+  get_url:
+      url: "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key"
+      dest: "/usr/share/keyrings/jenkins-keyring.asc"
+      mode: '0644'
+- name: Add jenkins repository
+  copy:
+      dest: "/etc/apt/sources.list.d/jenkins.list"
+      content: "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/"
+      mode: '0644'
 
-      - name: Update repolist and install fontconfig,java,jenkins
-        apt:
-          name:
-            - fontconfig 
-            - openjdk-17-jre
-            - jenkins
-          state: present
-          update_cache: yes
-        notify:
-          - Enable jenkins
-          - Get password
-          - Print password
-          
-    when: ansible_distribution == "Ubuntu"
-
-  - block:
+- name: Update repolist and install fontconfig,java,jenkins
+  apt:
+    name:
+      - fontconfig 
+      - openjdk-17-jre
+      - jenkins
+    state: present
+    update_cache: yes
+  notify:
+    - Enable jenkins
+    - Get password
+    - Print password
     
-      - name: Download GPG Key
-        rpm_key:
-          state: present
-          key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
-    
-      - name: Add jenkins repository 
-        get_url:
-            url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
-            dest: /etc/yum.repos.d/jenkins.repo
-            mode: '0644'        
-      
-      - name: Update repolist
-        yum:
-          name: "*"
-          state: latest
-        
-      - name: Install fontconfig,java, jenkins
-        yum:
-          name:
-            - fontconfig 
-            - openjdk-17-jre
-            - jenkins
-          state: present
-        notify: 
-          - Enable jenkins
-          - Get password
-          - Print password
-        
-    when: ansible_distribution == "Redhat"
+# when: ansible_distribution == "Ubuntu"
 
-      
+# - block:
+
+# - name: Download GPG Key
+#   rpm_key:
+#     state: present
+#     key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+# - name: Add jenkins repository 
+#   get_url:
+#       url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+#       dest: /etc/yum.repos.d/jenkins.repo
+#       mode: '0644'        
+
+# - name: Update repolist
+#   yum:
+#     name: "*"
+#     state: latest
+  
+# - name: Install fontconfig,java, jenkins
+#   yum:
+#     name:
+#       - fontconfig 
+#       - openjdk-17-jre
+#       - jenkins
+#     state: present
+#   notify: 
+#     - Enable jenkins
+#     - Get password
+#     - Print password
+  
+# when: ansible_distribution == "Redhat"
+
+

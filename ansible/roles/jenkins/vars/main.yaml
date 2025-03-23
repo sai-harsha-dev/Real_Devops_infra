@@ -1,2 +1,2 @@
-FILESYSTEM: 
-ACCESSPOINT:
+FILESYSTEM: jenkins-efs
+ACCESSPOINT: jenkins-home
