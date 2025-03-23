@@ -1,0 +1,41 @@
+- name: Install binaries
+  apt:
+    name:
+      - git 
+      - binutils 
+      - rustc
+      - cargo
+      - pkg-config
+      - libssl-dev
+      - gettext 
+    state: present
+    update_cache: true
+
+- name: Clone git repo
+  ansible.builtin.git:
+    repo: "https://github.com/aws/efs-utils"
+    dest: "/tmp/efs-utils"
+    update: yes
+
+- name: Change the working directory to and efs-utils execute ./build-deb.sh 
+  command: 
+    cmd: "./build-deb.sh" 
+    chdir: "/tmp/efs-utils"
+
+- name: Find the built Amazon EFS Utils .deb package
+  ansible.builtin.find:
+    paths: "/tmp/efs-utils/build/"
+    patterns: "amazon-efs-utils*deb"
+  register: deb_files
+
+- name: Install EFS Utils package
+  ansible.builtin.apt:
+    deb: "{{ deb_files.files[0].path }}"
+  when: deb_files.files | length > 0
+
+- name: Install efs-utils and dependencies
+  apt:
+    name: 
+      - build-essential
+      - libwrap0-dev
+      - libssl-dev
