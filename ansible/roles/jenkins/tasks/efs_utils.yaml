@@ -10,7 +10,7 @@
     create: yes
 
 - name: Install efs-utils for debian 
-  include_tasks: efs_utils_debian.yaml
+  include_tasks: efs_utils_deb.yaml
   when: ansible_distribution == "Ubuntu"
 
 - name: Install efs-utils for Redhat 
