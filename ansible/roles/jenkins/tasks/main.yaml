@@ -7,10 +7,10 @@
 - name: EFS FILESYSTEM SETUP
   import_tasks: efs_config.yaml
 
-- name: JENKINS SETUP
+- name: JENKINS SETUP FOR UBUNTU
   import_tasks: jenkins_debian.yaml
   when: ansible_distribution == "Ubuntu"
 
-- name: JENKINS SETUP
+- name: JENKINS SETUP FOR REDHAT
   import_tasks: jenkins_redhat.yaml
   when: ansible_distribution == "Redhat"
