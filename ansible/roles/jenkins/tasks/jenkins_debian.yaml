@@ -3,6 +3,7 @@
       url: "https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key"
       dest: "/usr/share/keyrings/jenkins-keyring.asc"
       mode: '0644'
+      
 - name: Add jenkins repository
   copy:
       dest: "/etc/apt/sources.list.d/jenkins.list"

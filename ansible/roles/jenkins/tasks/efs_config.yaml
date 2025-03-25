@@ -25,3 +25,5 @@
     path: /etc/fstab
     line: "{{ FILESYSTEM_ID.stdout }}:/ /var/lib/jenkins efs _netdev,tls,accesspoint={{ ACCESSPOINT_ID.stdout }} 0 0"
     create: yes
+
+
