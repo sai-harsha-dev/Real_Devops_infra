@@ -1,0 +1,29 @@
+- name: Get EFS Filesystem ID
+  ansible.builtin.shell:
+    cmd: aws efs describe-file-systems --query "FileSystems[?Name=='{{ FILESYSTEM }}'].FileSystemId" --output text
+  register: FILESYSTEM_ID
+  changed_when: false
+
+- name: Get EFS Access Point ID
+  ansible.builtin.shell:
+    cmd: aws efs describe-access-points --query "AccessPoints[?FileSystemId=='{{ FILESYSTEM_ID.stdout }}' && Tags[?Key=='Name' && Value=='{{ ACCESSPOINT }}']].AccessPointId" --output text
+  register: ACCESSPOINT_ID
+  changed_when: false
+
+- name: Ensure /var/lib/jenkins directory exists
+  ansible.builtin.file:
+    path: /var/lib/jenkins
+    state: directory
+    mode: '0755'
+
+- name: Mount EFS filesystem
+  command: mount -t efs -o tls,accesspoint={{ ACCESSPOINT_ID.stdout }} {{ FILESYSTEM_ID.stdout }}:/ /var/lib/jenkins
+  become: true
+
+- name: Persist mount in /etc/fstab
+  ansible.builtin.lineinfile:
+    path: /etc/fstab
+    line: "{{ FILESYSTEM_ID.stdout }}:/ /var/lib/jenkins efs _netdev,tls,accesspoint={{ ACCESSPOINT_ID.stdout }} 0 0"
+    create: yes
+
+

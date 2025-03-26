@@ -1,0 +1,7 @@
+- name: Configure EFS and install jenkins
+  hosts: localhost
+  become: true
+  roles:
+    - role: jenkins
+      vars: 
+        dir: 'roles/jenkins'

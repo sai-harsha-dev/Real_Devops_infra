@@ -1,0 +1,16 @@
+- name: EFS UTILITY SETUP
+  include_tasks: efs_utils.yaml
+  
+- name: AWS CLI SETUP
+  include_tasks: aws_cli.yaml
+
+- name: EFS FILESYSTEM SETUP
+  include_tasks: efs_config.yaml
+
+- name: JENKINS SETUP FOR UBUNTU
+  include_tasks: jenkins_debian.yaml
+  when: ansible_distribution == "Ubuntu"
+
+- name: JENKINS SETUP FOR REDHAT
+  include_tasks: jenkins_redhat.yaml
+  when: ansible_facts['os_family'] == "RedHat"

@@ -1,0 +1,43 @@
+- name: Install binaries
+  yum:
+    name:
+      - git
+      - rpm-build
+      - make
+      - rust
+      - cargo
+      - openssl-devel
+    state: present
+    update_cache: true
+
+
+- name: Clone git repo
+  ansible.builtin.git:
+    repo: "https://github.com/aws/efs-utils"
+    dest: "/tmp/efs-utils"
+    update: yes
+
+- name: Change the working directory to and efs-utils execute make rpm 
+  command: "make rpm" 
+  args:  
+    chdir: "/tmp/efs-utils"
+
+- name: Find the built Amazon EFS Utils .rpm package
+  ansible.builtin.find:
+    paths: "/tmp/efs-utils/build/"
+    patterns: "amazon-efs-utils*rpm"
+  register: rpm_files
+
+- name: Install the amazon-efs-utils package
+  yum:
+    name: "{{ item.path }}"
+    state: present
+  loop: "{{ rpm_files.files }}"
+  when: rpm_files.files | length > 0
+
+- name: Install efs-utils and dependencies
+  yum:
+    name: 
+      - build-essential
+      - libwrap0-dev
+      - libssl-dev

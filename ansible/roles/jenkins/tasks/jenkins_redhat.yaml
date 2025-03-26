@@ -1,0 +1,30 @@
+- name: Download GPG Key
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+- name: Add jenkins repository 
+  get_url:
+      url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+      mode: '0644'        
+
+- name: Update repolist
+  yum:
+    name: "*"
+    state: latest
+  
+- name: Install fontconfig,java, jenkins
+  yum:
+    name:
+      - fontconfig 
+      - openjdk-17-jre
+      - jenkins
+    state: present
+  notify: 
+    - Enable jenkins
+    - Get password
+    - Print password
+  
+
+

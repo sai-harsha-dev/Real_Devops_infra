@@ -1,0 +1,14 @@
+- name: Mount efs and restart jenkins
+  hosts: localhost
+  become: true
+  tasks:
+  - name: Mount EFS
+    include_role:
+        name: 'roles/jenkins'
+        tasks_from: efs_config.yaml
+  
+  - name: Restart Jenkins 
+    systemd:
+      name: jenkins
+      state: restarted
+  

@@ -1,0 +1,14 @@
+- name: Enable jenkins
+  systemd:
+      name: jenkins
+      enabled: yes
+
+- name: Get password
+  command: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: jenkins_password
+
+- name: Print password
+  debug:
+    msg:
+      - Jenkins Installation Completed
+      - "ADMIN PASSWORD : {{ jenkins_password.stdout }}"
