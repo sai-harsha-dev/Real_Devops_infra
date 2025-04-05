@@ -26,7 +26,7 @@ fi
 # Add sonaruser and switch user
 ! id "${USER}" &>/dev/null && sudo useradd ${USER}
 sudo chown -R ${USER}:${USER} ${SONARHOME}
-su ${USER}
+sudo su ${USER}
 
 # Start sonarqube
 # ${SONARHOME}/bin/linux*/sonar.sh start --> matches using glob bash operation
