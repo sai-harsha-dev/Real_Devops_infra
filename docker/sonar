@@ -22,4 +22,4 @@ USER sonar
 
 # ENTRYPOINT [ "sh", "-c", "sonar.sh", "start" ]
 
-ENTRYPOINT [ "sh", "-c" ]
+ENTRYPOINT [ "sh" ]
