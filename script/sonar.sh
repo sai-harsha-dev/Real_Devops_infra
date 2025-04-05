@@ -30,4 +30,5 @@ sudo chown -R ${USER}:${USER} ${SONARHOME}
 
 # Start sonarqube
 # ${SONARHOME}/bin/linux*/sonar.sh start --> matches using glob bash operation
-su ${USER} -c ${SONARHOME}/bin/sonar*/${platform}/sonar.sh start
+SONAR_SCRIPT=$(find "$SONARHOME/bin" -type f -path "*/${platform}/sonar.sh" | head -n1)
+su ${USER} -c "${SONAR_SCRIPT} start"
