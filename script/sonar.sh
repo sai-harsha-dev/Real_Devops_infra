@@ -12,16 +12,19 @@ arch=$(uname -m)
 platform=${os}-${arch}
 
 # Install and java and sonarqube
-sudo apt install openjdk-17-jre-headless -y
-sudo apt install unzip -y
-sudo curl -o sonarqube ${SONARURL} 
-sudo unzip sonarqube -d ${SONARHOME} 
+if [ ! -d ${SONARHOME} ]
+then
+    sudo apt install openjdk-17-jre-headless -y
+    sudo apt install unzip -y
+    sudo curl -o sonarqube ${SONARURL} 
+    sudo unzip sonarqube -d ${SONARHOME}
+fi 
 
 # Setup Postgress database
 #sudo nano /opt/sonarqube/conf/sonar.properties
 
 # Add sonaruser and switch user
-sudo useradd ${USER}
+! id "${USER}" &>/dev/null && sudo useradd ${USER}
 sudo chown -R ${USER}:${USER} ${SONARHOME}
 su ${USER}
 
