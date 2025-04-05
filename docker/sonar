@@ -4,16 +4,16 @@ ENV SONARURL="https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-
     SONARHOME="sonarhome"
 
 
-RUN sudo curl -o sonarqube ${SONARURL} && \
-    sudo unzip -o sonarqube -d ${SONARHOME}
+RUN  curl -o sonarqube ${SONARURL} && \
+     unzip -o sonarqube -d ${SONARHOME}
 
 
 FROM eclipse-temurin:17-jre AS runtime 
 
 COPY --from=base /sonarhome/* /opt/sonarqube/
 
-RUN sudo useradd sonar && \
-    sudo chown -R sonar:sonar /opt/sonarqube/
+RUN  useradd sonar && \
+     chown -R sonar:sonar /opt/sonarqube/
 
 USER sonar
 
