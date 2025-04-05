@@ -1,0 +1,20 @@
+FROM ubuntu AS base
+
+ENV SONARURL="https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-25.3.0.104237.zip" \
+    SONARHOME="sonarhome"
+
+
+RUN sudo curl -o sonarqube ${SONARURL} && \
+    sudo unzip -o sonarqube -d ${SONARHOME}
+
+
+FROM eclipse-temurin:17-jre AS runtime 
+
+COPY --from=base /sonarhome/* /opt/sonarqube/
+
+RUN sudo useradd sonar && \
+    sudo chown -R sonar:sonar /opt/sonarqube/
+
+USER sonar
+
+ENTRYPOINT [ "sh", "-c", "/opt/sonarqube/*/bin/linux-x86-64/sonar.sh", "start" ]
