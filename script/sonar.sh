@@ -6,7 +6,7 @@ set -xe
 USER=sonar
 SONARURL="https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-25.3.0.104237.zip"
 SONARHOME="/usr/local/bin/sonarhome"
-os=$(uname -s)
+os=$(uname -s | tr '[:upper:]' '[:lower:]')
 arch=$(uname -m)
 [ "$arch" = "x86_64" ] && arch="x86-64"
 platform=${os}-${arch}
