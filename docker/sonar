@@ -18,6 +18,6 @@ WORKDIR /opt/sonarqube/*/bin/linux-x86-64
 RUN  useradd sonar && \
      chown -R sonar:sonar /opt/sonarqube/
 
-USER sonar
+# USER sonar
 
-ENTRYPOINT [ "sh", "-c", "sonar.sh", "start" ]
+# ENTRYPOINT [ "sh", "-c", "sonar.sh", "start" ]
