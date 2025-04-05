@@ -13,13 +13,11 @@ FROM eclipse-temurin:17-jre AS runtime
 
 COPY --from=base "/sonarhome/sonarqube-*" /opt/sonarqube/
 
-WORKDIR "/opt/sonarqube/*/bin/linux-x86-64"
+WORKDIR "/opt/sonarqube/bin/linux-x86-64"
 
 RUN  useradd sonar && \
      chown -R sonar:sonar /opt/sonarqube/
 
 USER sonar
 
-# ENTRYPOINT [ "sh", "-c", "sonar.sh", "start" ]
-
-ENTRYPOINT [ "sh" ]
+ENTRYPOINT [ "sh", "-c", "sonar.sh", "start" ]
