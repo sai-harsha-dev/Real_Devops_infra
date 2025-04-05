@@ -4,7 +4,7 @@ ENV SONARURL="https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-
     SONARHOME="sonarhome"
 
 
-RUN apt update && apt install -y curl && \ 
+RUN apt update && apt install -y curl unzip && \ 
     curl -o sonarqube ${SONARURL} && \
     unzip -o sonarqube -d ${SONARHOME}
 
