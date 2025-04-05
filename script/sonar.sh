@@ -17,7 +17,7 @@ then
     sudo apt install openjdk-17-jre-headless -y
     sudo apt install unzip -y
     sudo curl -o sonarqube ${SONARURL} 
-    sudo unzip -j -o sonarqube -d ${SONARHOME}
+    sudo unzip -o sonarqube -d ${SONARHOME}
 fi 
 
 # Setup Postgress database
@@ -30,4 +30,4 @@ sudo chown -R ${USER}:${USER} ${SONARHOME}
 
 # Start sonarqube
 # ${SONARHOME}/bin/linux*/sonar.sh start --> matches using glob bash operation
-su ${USER} -c ${SONARHOME}/bin/${platform}/sonar.sh start
+su ${USER} -c ${SONARHOME}/bin/sonar*/${platform}/sonar.sh start
