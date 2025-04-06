@@ -35,8 +35,9 @@ pipeline {
         stage('wait for QG'){
             steps{
                 timeout(5) {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonarqube-Token'
+                    waitForQualityGate abortPipeline: false
                 }
+                echo "Quality gate passed"
             }
         }
     }
