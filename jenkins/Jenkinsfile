@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    
+    tools {
+          maven 'maven'
+        }
+        
+    environment {
+          scanner = tool 'sonarscanner'
+        }
+        
+    stages {
+        stage('checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/sai-harsha-dev/Boardgame.git'
+            }
+        }
+        
+        stage('package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+        
+        stage('scan') {
+            steps {
+                withSonarQubeEnv('sonarserver') {
+                    sh '''$scanner/bin/sonar-scanner \
+                        -Dsonar.projectName=test \
+                        -Dsonar.java.binaries=target'''
+                }
+            }
+        }
+    }
+}
