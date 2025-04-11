@@ -11,7 +11,7 @@ services:
       - sonardata:/var/lib/postgresql/data
   
   sonarqube: 
-    image: sonar25
+    image: vnsharsha7999/sonarqube
     ports: 
       - 9000:9000
     environment:
