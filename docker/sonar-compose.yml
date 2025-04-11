@@ -25,12 +25,12 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
       - sonarqube_logs:/opt/sonarqube/logs
 
-  networks:
-    - sonarnet 
+networks:
+  - sonarnet 
 
-  volumes:
-    - sonardata
-    - sonarqube_data
-    - sonarqube_extensions
-    - sonarqube_logs
-    
+volumes:
+  - sonardata
+  - sonarqube_data
+  - sonarqube_extensions
+  - sonarqube_logs
+  
