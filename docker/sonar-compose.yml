@@ -29,8 +29,8 @@ networks:
   sonarnet:
 
 volumes:
-  sonardata
-  sonarqube_data
-  sonarqube_extensions
-  sonarqube_logs
+  sonardata:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
   
