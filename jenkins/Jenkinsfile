@@ -26,7 +26,9 @@ pipeline {
         stage('scan') {
             steps {
                 withSonarQubeEnv('sonarserver') {
-                    sh '''$scanner/bin/sonar-scanner \
+                    sh '''jars=$(find target/dependency -name "*.jar" | paste -sd "," -)
+                        
+                        $scanner/bin/sonar-scanner \
                         -Dsonar.projectName=test \
                         -Dsonar.java.binaries=target
                         -Dsonar.java.libraries=target/dependency/*.jar'''
