@@ -30,8 +30,9 @@ pipeline {
                         
                         $scanner/bin/sonar-scanner \
                         -Dsonar.projectName=test \
-                        -Dsonar.java.binaries=target
-                        -Dsonar.java.libraries=target/dependency/*.jar'''
+                        -Dsonar.java.binaries=target/classes
+                        -Dsonar.java.libraries=target/dependency/"$jars"
+                        '''
                 }
             }
         }
