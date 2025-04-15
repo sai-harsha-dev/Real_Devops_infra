@@ -18,7 +18,8 @@ pipeline {
         
         stage('package') {
             steps {
-                sh 'mvn package'
+                sh '''mvn package
+                      mvn dependency:copy-dependencies'''
             }
         }
         
@@ -27,7 +28,8 @@ pipeline {
                 withSonarQubeEnv('sonarserver') {
                     sh '''$scanner/bin/sonar-scanner \
                         -Dsonar.projectName=test \
-                        -Dsonar.java.binaries=target'''
+                        -Dsonar.java.binaries=target
+                        -Dsonar.java.libraries=target/dependency/*.jar'''
                 }
             }
         }
