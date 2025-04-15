@@ -27,11 +27,17 @@ pipeline {
             steps {
                 withSonarQubeEnv('sonarserver') {
                     sh '''jars=$(find target/dependency -name "*.jar" | paste -sd "," -)
+
+                        cat <<EOF > sonar-scanner.properties
+sonar.projectKey=test
+sonar.projectName=test
+sonar.sources=src/main/java
+sonar.java.binaries=target/classes
+sonar.java.libraries=$jars
+EOF
                         
                         $scanner/bin/sonar-scanner \
-                        -Dsonar.projectName=test \
-                        -Dsonar.java.binaries=target/classes
-                        -Dsonar.java.libraries="$jars"
+                        -Dproject.settings=sonar-scanner.properties
                         '''
                 }
             }
